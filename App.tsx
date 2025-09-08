@@ -1,20 +1,27 @@
+import { SafeAreaView, StyleSheet } from 'react-native';
+import { NativeRouter } from 'react-router-native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import '@expo/metro-runtime';
+
+import Main from './src/components/Main';
+import theme from './src/theme';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <NativeRouter>
+        <SafeAreaView style={styles.container}>
+          <StatusBar style="light" backgroundColor={theme.colors.appBar} />
+          <Main />
+        </SafeAreaView>
+      </NativeRouter>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#000', // fundo escuro
   },
 });
