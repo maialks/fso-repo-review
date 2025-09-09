@@ -3,6 +3,7 @@ import Constants from 'expo-constants';
 import AppBarTab from './AppBarTab';
 import { ChevronLeft } from 'lucide-react-native';
 import theme from '../theme';
+import { useRef } from 'react';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,15 +23,20 @@ const styles = StyleSheet.create({
 
 const iconSize = 28;
 const AppBar = () => {
+  const tabScrollRef = useRef<ScrollView | null>(null);
+  const onBackwardsTouch = () => {
+    if (tabScrollRef) tabScrollRef.current?.scrollTo({ x: 0, animated: true });
+  };
   return (
     <View style={styles.container}>
-      <Pressable onPress={() => console.log('return icon pressed')}>
+      <Pressable onPress={() => onBackwardsTouch()}>
         <ChevronLeft size={iconSize} stroke={'#fff'} />
       </Pressable>
       <ScrollView
         horizontal
         style={styles.tabsScroll}
         showsHorizontalScrollIndicator={false}
+        ref={tabScrollRef}
       >
         <AppBarTab to="/">Repositories</AppBarTab>
         <AppBarTab to="/signin">Sign In</AppBarTab>
