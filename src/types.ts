@@ -14,12 +14,7 @@ type FontWeightKey = 'normal' | 'bold';
 type FontWeightValue = '400' | '700';
 
 export interface Theme {
-  colors: {
-    textPrimary: string;
-    textSecondary: string;
-    primary: string;
-    appBar: string;
-  };
+  colors: Record<string, string>;
   fontSizes: {
     body: number;
     heading: number;

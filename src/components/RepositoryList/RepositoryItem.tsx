@@ -1,9 +1,9 @@
 import { View, StyleSheet, Image } from 'react-native';
-import Text from './Text';
-import type { Repository as ItemProps } from '../types';
-import theme from '../theme';
+import Text from './../Text';
+import type { Repository as ItemProps } from '../../types';
+import theme from '../../theme';
 import { CircleSmall, GitFork, Star, StarHalf } from 'lucide-react-native';
-import { addAlphaChannel } from '../utils/generic';
+import { addAlphaChannel } from '../../utils/generic';
 
 const getLanguageColor = (language: string) => {
   const colors: Record<string, string> = {
