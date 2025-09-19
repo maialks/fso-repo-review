@@ -1,13 +1,34 @@
+interface PageInfo {
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  startCursor: string;
+  endCursor: string;
+}
+
+interface Edge<T> {
+  node: T;
+  cursor: string;
+}
+
 export interface Repository {
   id: string;
+  name: string;
+  ownerName: string;
+  createdAt: string;
   fullName: string;
-  description: string;
-  language: string;
+  reviewCount: number;
+  ratingAverage: number;
   forksCount: number;
   stargazersCount: number;
-  ratingAverage: number;
-  reviewCount: number;
+  description: string;
+  language: string;
   ownerAvatarUrl: string;
+}
+
+export interface RepositoriesResponse {
+  totalCount: number;
+  edges: Edge<Repository>[];
+  pageInfo: PageInfo;
 }
 
 type FontWeightKey = 'normal' | 'bold';
@@ -15,14 +36,8 @@ type FontWeightValue = '400' | '700';
 
 export interface Theme {
   colors: Record<string, string>;
-  fontSizes: {
-    body: number;
-    heading: number;
-    subheading: number;
-  };
-  fonts: {
-    main: string;
-  };
+  fontSizes: Record<string, number>;
+  fonts: Record<string, string>;
   fontWeights: {
     [key in FontWeightKey]: FontWeightValue;
   };
@@ -39,3 +54,15 @@ export type Range<F extends number, T extends number> = Exclude<
   Enumerate<T>,
   Enumerate<F>
 >;
+
+export interface LoginPayload {
+  username: string;
+  password: string;
+}
+
+export interface AuthStorage {
+  namespace: string;
+  getAcessToken: () => Promise<string | null>;
+  setAcessToken: (token: string) => Promise<void>;
+  removeAccessToken: () => Promise<void>;
+}

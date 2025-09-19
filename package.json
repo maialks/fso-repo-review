@@ -10,11 +10,15 @@
     "lint": "eslint ./src/**/*.{js,jsx,ts,tsx} App.{js,ts,tsx} --no-error-on-unmatched-pattern"
   },
   "dependencies": {
+    "@apollo/client": "^4.0.5",
+    "@expo/metro-config": "~54.0.2",
     "@expo/metro-runtime": "~6.1.2",
+    "@react-native-async-storage/async-storage": "2.2.0",
     "expo": "^54.0.8",
     "expo-dev-client": "~6.0.12",
     "expo-status-bar": "~3.0.8",
     "formik": "^2.4.6",
+    "graphql": "^16.11.0",
     "lucide-react-native": "^0.542.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",

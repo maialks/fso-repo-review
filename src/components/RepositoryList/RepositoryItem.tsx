@@ -114,7 +114,9 @@ function RepositoryItem(repo: ItemProps) {
         <View style={styles.statItem}>
           <View style={styles.statRow}>
             <GitFork size={14} stroke={'#fff'} />
-            <Text fontSize="subheading">{formatNum(repo.forksCount)}</Text>
+            <Text fontSize="subheading" style={styles.statText}>
+              {formatNum(repo.forksCount)}
+            </Text>
           </View>
         </View>
         {/* Reviews */}
