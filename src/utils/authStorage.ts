@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { AuthStorage as AuthStorageInterface } from '../types';
+import { SetContextLink } from '@apollo/client/link/context';
 
 class AuthStorage implements AuthStorageInterface {
   namespace: string;
@@ -8,12 +9,12 @@ class AuthStorage implements AuthStorageInterface {
     this.namespace = namespace;
   }
 
-  async getAcessToken() {
+  async getAccessToken() {
     const token = await AsyncStorage.getItem(`auth:${this.namespace}`);
     return token;
   }
 
-  async setAcessToken(token: string) {
+  async setAccessToken(token: string) {
     await AsyncStorage.setItem(`auth:${this.namespace}`, token);
   }
 

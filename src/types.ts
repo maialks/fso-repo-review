@@ -62,7 +62,20 @@ export interface LoginPayload {
 
 export interface AuthStorage {
   namespace: string;
-  getAcessToken: () => Promise<string | null>;
-  setAcessToken: (token: string) => Promise<void>;
+  getAccessToken: () => Promise<string | null>;
+  setAccessToken: (token: string) => Promise<void>;
   removeAccessToken: () => Promise<void>;
+}
+
+export interface AuthResult {
+  authenticate: {
+    accessToken: string;
+  } | null;
+}
+
+export interface GraphQLErrorWithAuth {
+  name: string;
+  data: {
+    authenticate: null;
+  };
 }

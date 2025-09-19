@@ -6,13 +6,15 @@ import { useEffect, useRef } from 'react';
 import CustomTextInput from './TextInput';
 import { FormSchema } from './validation';
 import useSignIn from '../../hooks/useSignIn';
-import AuthStorage from '../../utils/authStorage';
 import { useNavigate } from 'react-router-native';
+
+import AuthStorage from '../../utils/authStorage';
+import { isGraphQLErrorWithAuth } from '../../utils/typeGuards';
+const tokenStorage = new AuthStorage('accessToken');
 
 const SignIn = () => {
   const shift = useRef(new Animated.Value(0)).current;
   const [signIn, result] = useSignIn();
-  const tokenStorage = new AuthStorage('accessToken');
   const navigate = useNavigate();
 
   // Keyboard Spacing Animation
@@ -52,37 +54,11 @@ const SignIn = () => {
               { setSubmitting, setStatus, setTouched },
             ) => {
               try {
-                const data = await signIn(values);
-                if (
-                  !result.loading &&
-                  'data' in result &&
-                  typeof data === 'object' &&
-                  data !== null &&
-                  'authenticate' in data &&
-                  typeof data.authenticate === 'object' &&
-                  data.authenticate !== null &&
-                  'accessToken' in data.authenticate &&
-                  typeof data.authenticate.accessToken === 'string'
-                ) {
-                  await tokenStorage.setAcessToken(
-                    data.authenticate.accessToken,
-                  );
-                  navigate('/');
-                }
+                await signIn(values);
+                navigate('/');
               } catch (error: unknown) {
-                if (
-                  error &&
-                  typeof error === 'object' &&
-                  'name' in error &&
-                  'data' in error &&
-                  error?.name === 'CombinedGraphQLErrors' &&
-                  error.data &&
-                  typeof error.data === 'object' &&
-                  'authenticate' in error.data &&
-                  error?.data?.authenticate === null
-                ) {
+                if (isGraphQLErrorWithAuth(error))
                   setStatus({ error: 'Invalid username or password' });
-                }
                 console.log(error);
               }
               setTimeout(() => {
