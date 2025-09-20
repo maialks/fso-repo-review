@@ -1,9 +1,8 @@
 import { View, StyleSheet, Pressable, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
-import AppBarTab from './AppBarTab';
 import { ChevronLeft } from 'lucide-react-native';
 import theme from '../theme';
-import { useRef } from 'react';
+import { type PropsWithChildren, useRef } from 'react';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,8 +21,9 @@ const styles = StyleSheet.create({
 });
 
 const iconSize = 28;
-const AppBar = () => {
+const AppBar = ({ children }: PropsWithChildren) => {
   const tabScrollRef = useRef<ScrollView | null>(null);
+
   const onBackwardsTouch = () => {
     if (tabScrollRef) tabScrollRef.current?.scrollTo({ x: 0, animated: true });
   };
@@ -38,8 +38,7 @@ const AppBar = () => {
         showsHorizontalScrollIndicator={false}
         ref={tabScrollRef}
       >
-        <AppBarTab to="/">Repositories</AppBarTab>
-        <AppBarTab to="/signin">Sign In</AppBarTab>
+        {children}
       </ScrollView>
     </View>
   );

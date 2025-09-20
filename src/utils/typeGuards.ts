@@ -1,4 +1,4 @@
-import type { AuthResult, GraphQLErrorWithAuth } from '../types';
+import type { AuthResult, GraphQLAuthError } from '../types';
 
 export function isAuthResult(data: unknown): data is AuthResult {
   return (
@@ -12,9 +12,7 @@ export function isAuthResult(data: unknown): data is AuthResult {
   );
 }
 
-export function isGraphQLErrorWithAuth(
-  error: unknown,
-): error is GraphQLErrorWithAuth {
+export function isGraphQLAuthError(error: unknown): error is GraphQLAuthError {
   return (
     typeof error === 'object' &&
     error !== null &&

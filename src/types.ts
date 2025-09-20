@@ -73,7 +73,7 @@ export interface AuthResult {
   } | null;
 }
 
-export interface GraphQLErrorWithAuth {
+export interface GraphQLAuthError {
   name: string;
   data: {
     authenticate: null;

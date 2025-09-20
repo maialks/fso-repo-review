@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import { Link } from 'react-router-native';
 import Text from './Text';
 
@@ -12,9 +12,15 @@ const styles = StyleSheet.create({
 const AppBarTab = ({
   to,
   children,
-}: React.PropsWithChildren<{ to: string }>) => {
+  disabled,
+  onPress,
+}: React.PropsWithChildren<{
+  to: string;
+  onPress?: () => void;
+  disabled?: boolean;
+}>) => {
   return (
-    <Link to={to} style={styles.tab}>
+    <Link to={to} style={styles.tab} onPress={onPress} disabled={disabled}>
       <Text style={styles.text}>{children}</Text>
     </Link>
   );

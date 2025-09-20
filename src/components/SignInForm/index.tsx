@@ -1,43 +1,26 @@
 import Text from '../Text';
-import { View, Pressable, Animated, Keyboard } from 'react-native';
+import { View, Pressable, Animated } from 'react-native';
 import styles from './styles';
 import { Formik } from 'formik';
-import { useEffect, useRef } from 'react';
 import CustomTextInput from './TextInput';
 import { FormSchema } from './validation';
 import useSignIn from '../../hooks/useSignIn';
 import { useNavigate } from 'react-router-native';
 
-import AuthStorage from '../../utils/authStorage';
-import { isGraphQLErrorWithAuth } from '../../utils/typeGuards';
-const tokenStorage = new AuthStorage('accessToken');
+import { isGraphQLAuthError } from '../../utils/typeGuards';
+import useKeyboardShift from '../../hooks/useKeyboardShift';
 
-const SignIn = () => {
-  const shift = useRef(new Animated.Value(0)).current;
-  const [signIn, result] = useSignIn();
+const SignIn = ({
+  setAuth,
+}: {
+  /**
+   * @description must be called after client.resetStore if controls a loading state
+   */
+  setAuth: (newState: boolean) => void;
+}) => {
+  const shift = useKeyboardShift();
+  const [signIn] = useSignIn();
   const navigate = useNavigate();
-
-  // Keyboard Spacing Animation
-  useEffect(() => {
-    const showSub = Keyboard.addListener('keyboardDidShow', (e) => {
-      Animated.timing(shift, {
-        toValue: -e.endCoordinates.height / 8,
-        duration: 250,
-        useNativeDriver: true,
-      }).start();
-    });
-    const hideSub = Keyboard.addListener('keyboardDidHide', () => {
-      Animated.timing(shift, {
-        toValue: 0,
-        duration: 250,
-        useNativeDriver: true,
-      }).start();
-    });
-    return () => {
-      showSub.remove();
-      hideSub.remove();
-    };
-  }, []);
 
   return (
     <View style={styles.container}>
@@ -49,15 +32,13 @@ const SignIn = () => {
         >
           <Formik
             initialValues={{ username: 'kalle', password: 'password' }}
-            onSubmit={async (
-              values,
-              { setSubmitting, setStatus, setTouched },
-            ) => {
+            onSubmit={async (values, { setSubmitting, setStatus }) => {
               try {
                 await signIn(values);
+                setAuth(true);
                 navigate('/');
               } catch (error: unknown) {
-                if (isGraphQLErrorWithAuth(error))
+                if (isGraphQLAuthError(error))
                   setStatus({ error: 'Invalid username or password' });
                 console.log(error);
               }

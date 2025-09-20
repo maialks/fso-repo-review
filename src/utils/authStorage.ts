@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { AuthStorage as AuthStorageInterface } from '../types';
-import { SetContextLink } from '@apollo/client/link/context';
 
 class AuthStorage implements AuthStorageInterface {
   namespace: string;
